@@ -1,0 +1,16 @@
+*{box-sizing:border-box;font-family:Segoe UI,Arial,Helvetica,sans-serif}
+body{margin:0;color:#222}
+header{background:#0b5; padding:16px;color:#032}
+main{display:grid;grid-template-columns:2fr 1fr;gap:16px;padding:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.card{border:1px solid #ddd;padding:12px;border-radius:6px;background:#fff}
+.card h3{margin:0 0 8px 0;font-size:1rem}
+.card p{margin:0 0 8px 0;font-size:0.9rem;color:#555}
+.card .price{font-weight:700}
+.card input[type=number]{width:60px}
+#cart{border-left:1px solid #eee;padding-left:12px}
+#cartItems{margin-top:12px}
+.actions{margin-top:12px}
+button{background:#0b5;color:#fff;border:none;padding:8px 12px;border-radius:4px;cursor:pointer}
+#msg{margin-top:8px;color:green}
+@media(max-width:800px){main{grid-template-columns:1fr}}
