@@ -1,5 +1,15 @@
 const API = 'http://localhost:8000'
 
+const IMAGE_MAP = {
+  1: '../img/camiseta.svg',
+  2: '../img/bone.svg',
+  3: '../img/caneca.svg'
+}
+
+function getImageForProduct(id){
+  return IMAGE_MAP[id] || '../img/camiseta.svg'
+}
+
 async function fetchProducts(){
   const res = await fetch(`${API}/products`)
   return res.json()
@@ -9,10 +19,14 @@ function createProductCard(p){
   const el = document.createElement('div')
   el.className = 'card'
   el.innerHTML = `
+    <img class="thumb" src="${getImageForProduct(p.id)}" alt="${p.name}" />
     <h3>${p.name}</h3>
     <p>${p.description}</p>
     <div class="price">R$ ${p.price.toFixed(2)}</div>
-    <label>Qtd <input type="number" min="0" value="0" data-id="${p.id}" /></label>
+    <div class="controls">
+      <label>Qtd <input type="number" min="0" value="0" data-id="${p.id}" /></label>
+      <button type="button" data-add="${p.id}" class="btn-secondary">Adicionar</button>
+    </div>
   `
   return el
 }
@@ -38,7 +52,16 @@ async function main(){
     container.appendChild(createProductCard(p))
   })
 
+  // handle qty inputs and add buttons
   container.addEventListener('input',()=> updateCartUI(products))
+  container.addEventListener('click', (e)=>{
+    const btn = e.target.closest('button[data-add]')
+    if(btn){
+      const id = btn.getAttribute('data-add')
+      const inp = document.querySelector(`input[data-id="${id}"]`)
+      if(inp){ inp.value = Math.max(1, parseInt(inp.value||0)+1); updateCartUI(products) }
+    }
+  })
 
   const form = document.getElementById('orderForm')
   form.addEventListener('submit', async (e)=>{
@@ -59,12 +82,13 @@ async function main(){
     if(res.ok){
       const data = await res.json()
       msg.textContent = `Pedido ${data.id} criado — total R$ ${data.total.toFixed(2)}`
+      msg.className = 'msg success'
       form.reset()
       updateCartUI(products)
     } else {
       const err = await res.json()
       msg.textContent = `Erro: ${err.detail || 'não foi possível criar pedido'}`
-      msg.style.color = 'red'
+      msg.className = 'msg error'
     }
   })
 }

@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+env/
+venv/
+
+# SQLite database
+*.db
+vendas.db
+
+# VS Code
+.vscode/
+
+# Node
+node_modules/
+/dist
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor backups
+*~

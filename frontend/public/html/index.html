@@ -3,31 +3,37 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mini Vendas</title>
+  <title>Loja - Mini Vendas</title>
   <link rel="stylesheet" href="../css/styles.css" />
 </head>
 <body>
   <header>
-    <h1>Loja - Mini Vendas</h1>
+    <h1>Loja — Mini Vendas</h1>
   </header>
   <main>
     <section id="catalog">
       <h2>Produtos</h2>
-      <div id="products" class="grid"></div>
+      <div id="products" class="grid" aria-live="polite"></div>
     </section>
 
     <aside id="cart">
       <h2>Carrinho</h2>
       <form id="orderForm">
-        <label>Nome do cliente<input type="text" id="customer" required /></label>
-        <div id="cartItems"></div>
+        <label>Nome do cliente
+          <input type="text" id="customer" required aria-label="Nome do cliente" />
+        </label>
+        <div id="cartItems" aria-live="polite"></div>
         <div class="actions">
           <button type="submit">Finalizar compra</button>
         </div>
       </form>
-      <div id="msg"></div>
+      <div id="msg" role="status"></div>
     </aside>
   </main>
+
+  <footer>
+    <p>Projeto de exemplo — Mini Vendas</p>
+  </footer>
 
   <script src="../js/app.js" type="module"></script>
 </body>
