@@ -1,15 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini Vendas - Loja Online</title>
-  <link rel="stylesheet" href="../css/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mini Vendas — Loja</title>
+  <link rel="stylesheet" href="../css/styles.css" />
 </head>
 <body>
-
   <header>
-    <div class="logo">Mini Vendas</div>
+    <h1>Mini Vendas</h1>
     <nav>
       <a href="#catalog">Produtos</a>
       <a href="#cart">Carrinho</a>
@@ -18,17 +17,15 @@
 
   <main>
     <section id="catalog">
-      <h2>Produtos em Destaque</h2>
-      <div class="grid" id="products">
-        <!-- Produtos gerados pelo JS -->
-      </div>
+      <h2>Produtos</h2>
+      <div id="products" class="grid" aria-live="polite"></div>
     </section>
 
     <aside id="cart">
       <h2>Carrinho</h2>
       <form id="orderForm">
         <label>Nome do cliente
-          <input type="text" id="customer" placeholder="Seu nome" required>
+          <input type="text" id="customer" placeholder="Seu nome" required />
         </label>
         <div id="cartItems"></div>
         <div class="cart-total">
@@ -38,12 +35,12 @@
           <button type="submit">Finalizar compra</button>
         </div>
       </form>
-      <div id="msg"></div>
+      <div id="msg" role="status"></div>
     </aside>
   </main>
 
   <footer>
-    <p>© 2025 Mini Vendas — Todos os direitos reservados</p>
+    <p>Projeto de exemplo — Mini Vendas</p>
   </footer>
 
   <script src="../js/app.js" type="module"></script>

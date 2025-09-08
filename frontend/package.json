@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "serve public -l 3000"
+    "start": "serve public -l 3000",
+    "dev": "npx serve public -l 3000"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.0"
+  },
   "dependencies": {}
 }
