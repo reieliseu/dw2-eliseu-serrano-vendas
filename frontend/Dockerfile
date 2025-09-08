@@ -1,12 +1,7 @@
 FROM node:18-alpine
 
-WORKDIR /app/frontend
-
-COPY ./frontend /app/frontend
-
-# Optional: install a static server for production preview
+WORKDIR /app
+COPY ./frontend /app
 RUN npm i -g serve
-
 EXPOSE 3000
-
-CMD ["serve", "-s", "public/html", "-l", "3000"]
+CMD ["serve", "public", "-l", "3000"]

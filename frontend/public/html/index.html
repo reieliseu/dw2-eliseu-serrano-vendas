@@ -1,38 +1,49 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Loja - Mini Vendas</title>
-  <link rel="stylesheet" href="../css/styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Vendas - Loja Online</title>
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
+
   <header>
-    <h1>Loja — Mini Vendas</h1>
+    <div class="logo">Mini Vendas</div>
+    <nav>
+      <a href="#catalog">Produtos</a>
+      <a href="#cart">Carrinho</a>
+    </nav>
   </header>
+
   <main>
     <section id="catalog">
-      <h2>Produtos</h2>
-      <div id="products" class="grid" aria-live="polite"></div>
+      <h2>Produtos em Destaque</h2>
+      <div class="grid" id="products">
+        <!-- Produtos gerados pelo JS -->
+      </div>
     </section>
 
     <aside id="cart">
       <h2>Carrinho</h2>
       <form id="orderForm">
         <label>Nome do cliente
-          <input type="text" id="customer" required aria-label="Nome do cliente" />
+          <input type="text" id="customer" placeholder="Seu nome" required>
         </label>
-        <div id="cartItems" aria-live="polite"></div>
+        <div id="cartItems"></div>
+        <div class="cart-total">
+          <span>Total:</span> <span id="cartTotal">R$ 0,00</span>
+        </div>
         <div class="actions">
           <button type="submit">Finalizar compra</button>
         </div>
       </form>
-      <div id="msg" role="status"></div>
+      <div id="msg"></div>
     </aside>
   </main>
 
   <footer>
-    <p>Projeto de exemplo — Mini Vendas</p>
+    <p>© 2025 Mini Vendas — Todos os direitos reservados</p>
   </footer>
 
   <script src="../js/app.js" type="module"></script>

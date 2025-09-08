@@ -1,8 +1,7 @@
 {
   "name": "vendas-backend",
   "version": "0.1.0",
-  "main": "src/index.js",
   "scripts": {
-    "start": "uvicorn app.main:app --port 8000 --reload"
+    "start": "python -m uvicorn app.main:app --reload --port 8000"
   }
 }
