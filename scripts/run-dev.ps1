@@ -53,14 +53,27 @@ $node = Get-Command npm -ErrorAction SilentlyContinue
 if(-not $node){ Write-Warn "npm não encontrado. Se quiser servir frontend, instale Node.js." }
 else { Write-Info "npm encontrado: $($node.Path)" }
 
+# If npm present, install frontend deps to ensure `npm run dev` works
+if($node){
+  Push-Location $frontend
+  try{
+    Write-Info "Instalando dependências do frontend (npm install)"
+    & npm install
+  } catch {
+    Write-Warn "Falha ao instalar dependências do frontend: $($_.Exception.Message)"
+  } finally {
+    Pop-Location
+  }
+}
+
 # Start backend in a new window
-$backendCmd = "cd '$backend'; Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force; . '.\.venv\Scripts\Activate.ps1'; python -m uvicorn app.main:app --reload --port 8000"
+$backendCmd = "& { cd `"$backend`"; Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force; . `"$backend\\.venv\\Scripts\\Activate.ps1`"; python -m uvicorn app.main:app --reload --port 8000 }"
 Write-Info "Iniciando backend em nova janela PowerShell..."
 Start-Process powershell -ArgumentList '-NoExit','-Command',$backendCmd
 
 # Start frontend if npm available
 if($node){
-  $frontendCmd = "cd '$frontend'; npm run dev"
+  $frontendCmd = "& { cd `"$frontend`"; npm run dev }"
   Write-Info "Iniciando frontend em nova janela PowerShell..."
   Start-Process powershell -ArgumentList '-NoExit','-Command',$frontendCmd
 } else {

@@ -1,13 +1,13 @@
 const API = 'http://localhost:8000'
 
 const IMAGE_MAP = {
-  1: '../img/camiseta.svg',
-  2: '../img/bone.svg',
-  3: '../img/caneca.svg'
+  1: 'img/camiseta.svg',
+  2: 'img/bone.svg',
+  3: 'img/caneca.svg'
 }
 
 function getImageForProduct(id){
-  return IMAGE_MAP[id] || '../img/camiseta.svg'
+  return IMAGE_MAP[id] || 'img/camiseta.svg'
 }
 
 async function fetchProducts(){
