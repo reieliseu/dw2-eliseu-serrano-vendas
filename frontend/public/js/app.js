@@ -186,6 +186,7 @@ async function main(){
   // store in global for easy access
   window.__products = products
   const container = document.getElementById('products')
+  // render function
   function render(){
     container.innerHTML = ''
     const list = applySearchAndSort(products)
@@ -195,6 +196,25 @@ async function main(){
     const cart = loadCartFromStorage()
     Object.keys(cart).forEach(id => { const inp = document.querySelector(`input[data-id="${id}"]`); if(inp) inp.value = cart[id] })
     buildDrawerCart(products)
+
+    // build table
+    const tableWrap = document.getElementById('productTableContainer')
+    const tbody = document.querySelector('#productTable tbody')
+    if(tbody){
+      tbody.innerHTML = ''
+      list.forEach(p=>{
+        const tr = document.createElement('tr')
+        tr.innerHTML = `
+          <td>${p.id}</td>
+          <td>${p.name}</td>
+          <td class="muted">${p.description}</td>
+          <td>R$ ${formatCurrency(p.price)}</td>
+          <td><input type="number" min="0" value="${loadCartFromStorage()[p.id]||0}" data-id="${p.id}" class="table-qty" style="width:70px" /></td>
+          <td><button class="btn-secondary table-add" data-id="${p.id}">Adicionar</button></td>
+        `
+        tbody.appendChild(tr)
+      })
+    }
   }
 
   render()
@@ -236,6 +256,70 @@ async function main(){
   // clear and checkout
   document.getElementById('clearCart')?.addEventListener('click', ()=>{ saveCartToStorage({}); buildDrawerCart(products) })
   document.getElementById('checkout')?.addEventListener('click', ()=> checkout(products))
+
+  // toggle view
+  const toggleBtn = document.getElementById('toggleView')
+  toggleBtn?.addEventListener('click', ()=>{
+    const grid = document.getElementById('products')
+    const tableWrap = document.getElementById('productTableContainer')
+    const pressed = toggleBtn.getAttribute('aria-pressed') === 'true'
+    toggleBtn.setAttribute('aria-pressed', String(!pressed))
+    if(pressed){
+      tableWrap.hidden = true
+      grid.style.display = ''
+      toggleBtn.textContent = 'Ver tabela'
+    } else {
+      tableWrap.hidden = false
+      grid.style.display = 'none'
+      toggleBtn.textContent = 'Ver grade'
+    }
+  })
+
+  // Sync inputs in grid and table from storage
+  function syncInputs(){
+    const cart = loadCartFromStorage()
+    // grid inputs
+    document.querySelectorAll('input[data-id]').forEach(inp=>{
+      const id = inp.getAttribute('data-id')
+      if(id && cart[id] != null) inp.value = cart[id]
+      else if(id) inp.value = inp.type === 'number' ? (inp.value || 0) : inp.value
+    })
+    // table inputs
+    document.querySelectorAll('input.table-qty').forEach(inp=>{
+      const id = inp.getAttribute('data-id')
+      if(id) inp.value = cart[id] || 0
+    })
+    updateCartCount()
+  }
+
+  // Delegated event handling for table inputs and buttons
+  document.addEventListener('input', (e)=>{
+    if(e.target && e.target.matches('input.table-qty')){
+      const inp = e.target
+      const id = inp.getAttribute('data-id')
+      const qty = Math.max(0, parseInt(inp.value||0))
+      const cart = loadCartFromStorage()
+      if(qty>0) cart[id]=qty; else delete cart[id]
+      saveCartToStorage(cart)
+      buildDrawerCart(products)
+      syncInputs()
+    }
+  })
+
+  document.addEventListener('click', (e)=>{
+    if(e.target && e.target.matches('button.table-add')){
+      const id = e.target.getAttribute('data-id')
+      // prefer grid input if present
+      const gridInput = document.querySelector(`input[data-id="${id}"]`)
+      if(gridInput){ gridInput.value = Math.max(1, parseInt(gridInput.value||0)+1); const cart = loadCartFromStorage(); cart[id]=parseInt(gridInput.value); saveCartToStorage(cart); buildDrawerCart(products); syncInputs(); }
+      else {
+        const cart = loadCartFromStorage(); cart[id] = (parseInt(cart[id]||0) + 1); saveCartToStorage(cart); buildDrawerCart(products); syncInputs();
+      }
+    }
+  })
+
+  // ensure inputs are synced after initial render
+  syncInputs()
 
   // initialize
   updateCartCount()

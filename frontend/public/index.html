@@ -39,10 +39,29 @@
             <option value="price-asc">Preço: menor</option>
             <option value="price-desc">Preço: maior</option>
           </select>
+          <!-- toggle view button -->
+          <button id="toggleView" class="btn-secondary" type="button" aria-pressed="false" style="margin-left:10px">Ver tabela</button>
         </div>
       </div>
 
       <div id="products" class="grid" aria-live="polite"></div>
+
+      <!-- Interactive table container (hidden by default) -->
+      <div id="productTableContainer" class="table-wrap" hidden>
+        <table id="productTable" class="product-table" aria-live="polite">
+          <thead>
+            <tr>
+              <th data-key="id">ID</th>
+              <th data-key="name">Produto</th>
+              <th data-key="description">Descrição</th>
+              <th data-key="price">Preço</th>
+              <th>Qtd</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </section>
 
     <aside id="info" class="info-panel">
